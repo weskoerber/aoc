@@ -24,8 +24,18 @@ pub fn main() !void {
     std.mem.sort(i32, nums_b.items, {}, cmp);
 
     var acc: u32 = 0;
-    for (nums_a.items, nums_b.items) |a, b| {
-        acc += @abs(a - b);
+    for (nums_a.items) |a| {
+        var occ: u32 = 0;
+        for (nums_b.items) |b| {
+            if (b > a) {
+                break;
+            }
+            if (b == a) {
+                occ += 1;
+            }
+        }
+
+        acc += @as(u32, @intCast(a)) * occ;
     }
 
     std.debug.print("{d}\n", .{acc});
